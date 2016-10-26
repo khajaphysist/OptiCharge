@@ -33,28 +33,47 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-        TextView resultOutput = (TextView)findViewById(R.id.resultView);
         try {
             updateDatabase();
+            displayStats();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        List<Contact> contactList = databaseHelper.getAllEntries();
 
-        StringBuffer sb = new StringBuffer();
+
+    }
+
+    public void displayStats() throws IOException{
+        TextView display = (TextView)findViewById(R.id.resultView);
+        String userOperatorAndState = getUserOperatorAndState();
+        String userOperator = userOperatorAndState.substring(0,1);
+        String userState = userOperatorAndState.substring(1,3);
+        int localSame = 0;
+        int localOthers = 0;
+        int localTotal = 0;
+        int std = 0;
+        DatabaseHelper dbh = new DatabaseHelper(this);
+        List<Contact> contactList = dbh.getAllEntries();
         for (Contact contact:contactList){
-
-            if (contact.getNumber().equals("0"))continue;
-
-            sb.append(contact.getName()+"    "+contact.getNumber()+"\n");
-            sb.append(contact.getOperator()+"    "+contact.getState()+"    "
-                    +contact.getMinutes()+"    "+contact.getSeconds()+"\n------\n");
-
+            if (contact.getState().equals(userState)){
+                localTotal = localTotal + contact.getSeconds();
+                if (contact.getOperator().equals(userOperator))
+                    localSame = localSame + contact.getSeconds();
+                else localOthers = localOthers + contact.getSeconds();
+            }
+            else std = std + contact.getSeconds();
         }
-        resultOutput.setText(sb);
-
+        StringBuffer sb = new StringBuffer();
+        sb.append("User Operator: "+userOperator+"\n");
+        sb.append("User State: "+userState+"\n");
+        sb.append("----------\n");
+        sb.append("Local Same: "+localSame+"\n");
+        sb.append("Local Others: "+localOthers+"\n");
+        sb.append("Local Total: "+localTotal+"\n");
+        sb.append("STD: "+std+"\n");
+        sb.append("----------\n");
+        display.setText(sb);
 
     }
 

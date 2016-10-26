@@ -27,6 +27,7 @@ public class ScrollingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         TextView resultOutput = (TextView)findViewById(R.id.resultView);
+        resultOutput.setText(getUserOperatorAndState());
 
     }
 
@@ -56,7 +57,7 @@ public class ScrollingActivity extends AppCompatActivity {
             line = reader.readLine();
             while (line != null){
                 String[] s = line.split("-");
-                if (s[0].equals(operatorName)){
+                if (s[0].equalsIgnoreCase(operatorName)){
                     operator = s[1];
                 }
                 line = reader.readLine();

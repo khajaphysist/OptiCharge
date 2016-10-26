@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class ScrollingActivity extends AppCompatActivity {
 
@@ -32,6 +34,27 @@ public class ScrollingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         TextView resultOutput = (TextView)findViewById(R.id.resultView);
+        try {
+            updateDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        List<Contact> contactList = databaseHelper.getAllEntries();
+
+        StringBuffer sb = new StringBuffer();
+        for (Contact contact:contactList){
+
+            if (contact.getNumber().equals("0"))continue;
+
+            sb.append(contact.getName()+"    "+contact.getNumber()+"\n");
+            sb.append(contact.getOperator()+"    "+contact.getState()+"    "
+                    +contact.getMinutes()+"    "+contact.getSeconds()+"\n------\n");
+
+        }
+        resultOutput.setText(sb);
+
 
     }
 
@@ -79,16 +102,18 @@ public class ScrollingActivity extends AppCompatActivity {
         int durationColumnIndex = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
         int typeColumnIndex = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int dateColumnIndex = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+        long recentCallDate = 0;
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        Contact zero = databaseHelper.getContact("0");
+        Contact zero = databaseHelper.getContact("1");
         if (zero.getName().equals("x")){
-            zero.setName("0");
-            zero.setNumber("0");
-            zero.setState("0");
-            zero.setOperator("0");
+            zero.setName("1");
+            zero.setNumber("1");
+            zero.setState("1");
+            zero.setOperator("1");
             zero.setMinutes(0);
             zero.setSeconds(0);
+            databaseHelper.addEntry(zero);
         }
 
         HashMap<Integer,String> operatorsAndStates = getOperatorsAndStates();
@@ -101,39 +126,44 @@ public class ScrollingActivity extends AppCompatActivity {
             int duration = Integer.parseInt(managedCursor.getString(durationColumnIndex));
             String type = managedCursor.getString(typeColumnIndex);
             long date = Long.parseLong(managedCursor.getString(dateColumnIndex));
+            if (date>recentCallDate)recentCallDate=date;
 
             if (number.length()>=10)number = number.substring(number.length()-10);
             if (!type.equals("2"))continue;
             if (duration==0)continue;
 
             Contact contact = databaseHelper.getContact(number);
-            if (contact.getName().equals("x")){
+            if (contact.getOperator().equals("x")){
 
                 String operatorAndState = operatorsAndStates.get(Integer.parseInt(number.substring(0,5)));
                 if (operatorAndState == null)
                     operatorAndState = operatorsAndStates.get(Integer.parseInt(number.substring(0,4)));
+                if (operatorAndState == null) continue;
 
                 contact.setName(name);
                 contact.setNumber(number);
                 contact.setOperator(operatorAndState.substring(0,1));
                 contact.setState(operatorAndState.substring(1,3));
                 contact.setSeconds(duration);
-                contact.setMinutes(duration/60);
+                int minutes = duration/60;
+                if(duration%60 > 0) minutes = minutes + 1;
+                contact.setMinutes(minutes);
                 databaseHelper.addEntry(contact);
             }
 
             else{
                 if (Long.parseLong(zero.getName())<date){
                     contact.setSeconds(duration+contact.getSeconds());
-                    contact.setMinutes((duration/60)+contact.getMinutes());
+                    int minutes = duration/60;
+                    if(duration%60 > 0) minutes = minutes + 1;
+                    contact.setMinutes(minutes+contact.getMinutes());
                     databaseHelper.updateEntry(contact);
                 }else break;
             }
 
         }while (managedCursor.moveToPrevious());
 
-        managedCursor.moveToLast();
-        zero.setName(managedCursor.getString(dateColumnIndex));
+        zero.setName(Long.toString(recentCallDate));
         databaseHelper.updateEntry(zero);
     }
 

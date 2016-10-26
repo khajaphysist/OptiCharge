@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,17 +59,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public Contact getContact(String number){
+        Contact x = new Contact("x","x","x","x",0,0);
+        if (getCount()==0)return x;
+
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         Cursor cursor = sqLiteDatabase.query(TABLE_CONTACTS, new String[] {
                 NUMBER,NAME,STATE,OPERATOR,MINUTES,SECONDS}, NUMBER + " = ?", new String[]{number},null,null,null,null);
-        if (cursor!=null){
-            cursor.moveToFirst();
+        if (cursor.moveToFirst()){
             Contact contact = new Contact(cursor.getString(1),cursor.getString(0),cursor.getString(2),cursor.getString(3),
                     Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)));
             return contact;
         }
-        else return new Contact("x","x","x","x",0,0);
+        else return x;
     }
 
     public List<Contact> getAllEntries(){
@@ -105,6 +108,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(SECONDS,contact.getSeconds());
 
         return sqLiteDatabase.update(TABLE_CONTACTS,contentValues, NUMBER + " = ?", new String[] {contact.getNumber()});
+    }
+
+    public int getCount(){
+        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        //cursor.close();
+        return cursor.getCount();
     }
 }
 

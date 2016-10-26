@@ -62,11 +62,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor cursor = sqLiteDatabase.query(TABLE_CONTACTS, new String[] {
                 NUMBER,NAME,STATE,OPERATOR,MINUTES,SECONDS}, NUMBER + " = ?", new String[]{number},null,null,null,null);
-        if (cursor!=null)cursor.moveToFirst();
-        Contact contact = new Contact(cursor.getString(1),cursor.getString(0),cursor.getString(2),cursor.getString(3),
-                Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)));
-        sqLiteDatabase.close();
-        return contact;
+        if (cursor!=null){
+            cursor.moveToFirst();
+            Contact contact = new Contact(cursor.getString(1),cursor.getString(0),cursor.getString(2),cursor.getString(3),
+                    Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)));
+            return contact;
+        }
+        else return new Contact("x","x","x","x",0,0);
     }
 
     public List<Contact> getAllEntries(){

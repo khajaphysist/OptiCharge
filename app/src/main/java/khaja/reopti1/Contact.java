@@ -64,4 +64,6 @@ public class Contact {
         this.minutes = minutes;
         this.seconds =  seconds;
     }
+    public Contact(){
+    }
 }

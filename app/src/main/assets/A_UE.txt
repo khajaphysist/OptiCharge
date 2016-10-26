@@ -1,0 +1,36 @@
+6|3|LA|10-m-120-2|Local Airtel mobile calls @ 10p/m, daily first 120 secs Local Airtel calls @ 2p/s.
+8|1|ALL|30-m|Local + STD Mobile Calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+11|7|ALL|50-m|Local+STD Mobile Calls at 50p/min. For tariff info, dial *121*13#
+13|28|S|30-m-120-2|STD mobile call 30p/minute(1st 120 sec per day@2p/sec). For tariff info, dial *121*13#
+15|3|LA|10-m|Local Airtel Mobile Calls @ 10p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+17|28|LA|25-m-120-2|Local airtel mobile calls@25p/min(1st 120 sec per day@2p/sec). For Tariff info dial *121*13#
+18|7|L|30-m-60-2|Local Mobile Calls at 30p/m (Daily 1st 60 secs at 2p/sec). For tariff info, dial*121*13#
+21|8|ALL|30-m-120-2|Local+STD Mobile calls at 30p/m, Daily 1st 120 secs at 2p/s for 8 days validity. For tariff info, dial*121*13#
+23|28|L|1-s|All local mobile call 1p/sec. For tariff info, dial *121*13#
+27|7|L|30-m|Local Mobile Calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+31|28|S|30-m|STD mobile calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+32|28|L|30-m|Local mobile calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+34|28|LA|10-m-120-2|Local Airtel mobile calls @ 10p/m, daily first 120 secs @ 2p/s. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+35|8|ALL|30-m|Local + STD Mobile Calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+37|5|LA|m140|140 Local Airtel Mobile Minutes. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+38|28|S|25-m|STD mobile calls @ 25p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+39|28|ALL|40-m-120-2|All Local+STD mobile calls@40p/min ( Daily 1st 120 sec per day@2p/sec). For Tariff info dial *121*13#
+41|5|L|m70|70 All Local mobile Minutes. To check balance, dial *121*2#
+44|12|L|30-m|Local Mobile Calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+45|28|L|30-m-120-2|All Local mobile call 30p/minute (1st 120 sec per day@2p/sec). For Tariff info dial *121*13#
+54|12|ALL|30-m|Local + STD Mobile Calls @ 30p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+58|12|LA|10-m|Local Airtel Mobile calls at 10p/min. For tariff info, dial *121*13#
+61|28|LA|25-m|Local airtel mobile call 25p/min. To check tariff info, dial *121*13#
+64|28|ALL|40-m|Local+STD mobile calls@40p/min. To check tariff info, dial *121*13#
+65|8|LA|m275|275 Local Airtel Mobile Minutes. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+66|28|L|35-m|All Local mobile call 35p/min. To check tariff info, dial *121*13#
+75|28|LA|10-m|Local Airtel mobile calls @ 10p/m. For tariff details, dial *121*13#. Other balance & validity, dial *121*2#.
+79|28|ALL|30-m-120-2|Rs10 Talktime + All Local and STD mobile calls@30p/min, daily 1st 120 seconds@2p/sec. To check tariff info, dial *121*13#
+84|7|L|m150|150 Local Mobile calling minutes. For tariff details, dial *121*13#
+102|12|L|m200|200 Local Mobile Minutes. To check minute balance & validity, dial *121*2#
+105|28|ALL|30-m|All Local+STD mobile call 30p/min.. To check tariff info, dial *121*13#
+129|15|ALL|m230|230 Local+STD Mobile Minutes. To check minute balance & validity, dial *121*2#
+149|28|ALL|m265|265 Local+STD Mobile Minutes. To check minute balance & validity, dial *121*2#
+197|28|L|m500|500 Local mobile calling minutes. To check minute balance & validity, dial *121*2#
+201|28|L|s25000|25000 All local mobile calling seconds. To check second balance & validity, dial *121*2#
+219|28|ALL|m490|490 Local + STD Mobile Minutes. To check minute balance & validity, dial *121*2#

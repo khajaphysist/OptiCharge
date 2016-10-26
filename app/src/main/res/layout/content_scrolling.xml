@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="khaja.reopti1.ScrollingActivity"
+    tools:showIn="@layout/activity_scrolling">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Result View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/resultView" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/name1"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/num1"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/state1"
+                android:layout_weight="1"
+                android:entries="@array/states"
+                android:prompt="@string/state_prompt" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/operator1"
+                android:layout_weight="1"
+                android:entries="@array/operators"
+                android:prompt="@string/operator_prompt" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/name2"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/num2"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/state2"
+                android:layout_weight="1"
+                android:entries="@array/states"
+                android:prompt="@string/state_prompt" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/operator2"
+                android:layout_weight="1"
+                android:entries="@array/operators"
+                android:prompt="@string/operator_prompt" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/name3"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/num3"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/state3"
+                android:layout_weight="1"
+                android:entries="@array/states"
+                android:prompt="@string/state_prompt" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/operator3"
+                android:layout_weight="1"
+                android:entries="@array/operators"
+                android:prompt="@string/operator_prompt" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/name4"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/num4"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/state4"
+                android:layout_weight="1"
+                android:entries="@array/states"
+                android:prompt="@string/state_prompt" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/operator4"
+                android:layout_weight="1"
+                android:entries="@array/operators"
+                android:prompt="@string/operator_prompt" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/name5"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/num5"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/state5"
+                android:layout_weight="1"
+                android:entries="@array/states"
+                android:prompt="@string/state_prompt" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/operator5"
+                android:layout_weight="1"
+                android:entries="@array/operators"
+                android:prompt="@string/operator_prompt" />
+        </LinearLayout>
+
+        <Button
+            android:text="Refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3" />
+
+        <TextView
+            android:text="Dunn was born on May 15, 1918 in Scott County, Kentucky, near Lexington, the second child and only son of Lucius and Sadie Burgess Dunn.[3] He was named Emerson but was generally known as &quot;Bud&quot;.[3] Horses played a large part in his early life and he later said he &quot;came into the world around them&quot;.[4] Dunn began training horses in his teens,[5] and in 1951,[6] he began to specialize in training Tennessee Walking Horses, a gaited breed often ridden in saddle seat competition, noted for its unique &quot;running walk.&quot;[7]  Dunn's training facility, Bud Dunn Stables,[8] later Bud Dunn and Son Stables,[9] was located in Florence, Alabama, on a ten-acre property. Dunn moved to north Alabama from Georgia in the 1950s, and bought out another trainer who was quitting the horse business.[4][10][6][11] By the mid-1980s, Dunn had over 50 horses in training at a time, and had several full-time employees.[8] He also judged Tennessee Walking Horse shows, including the Spring Celebration,[12] an annual Tennessee Walking Horse show in Shelbyville, Tennessee, that is traditionally popular with trainers who hope to enter horses in the National Celebration later in the year.[13]  Dunn trained and showed Tennessee Walking Horses for 50 years, and during his career won two World Grand Championships and 20 World Championships with various horses,[6] competing in 125 to 150 horse shows a year.[14] Dunn participated in the breed's major annual horse show, the Tennessee Walking Horse National Celebration, nearly every year from 1950. By 1993 he was so popular he signed autographs for several hours before a performance.[15] In total, Dunn personally showed 108 horses at the Celebration and several hundred others he trained were shown by other riders.[16] Among them was Sundust Royal Flush, a stallion who, at the 1970 Celebration, won both the Preliminary Stallion class[17] and the Three-Year-Old World Championship.[14][18] Among other winning horses were Stock Exchange, who won the Junior Stallion Championship at the Dixie Jubilee in Baton Rouge, Louisiana, in 1984, and Yankee Delight, who won the Grand Championship at the same show. Dunn rode both horses to their wins.[8] Among horses that were trained by Dunn but ridden by amateur riders, Delight Puff and Stuff was Amateur Champion, and Aces Executive was Ladies' Champion, also in 1984.[8]  Despite Dunn's success, he did not ride a winning horse to the World Grand Championship until 1992; fellow trainers felt that he was blackballed because he did not live in the Shelbyville, Tennessee, area, where the Celebration is held.[4] With his eventual success, he twice became the oldest rider ever to win the World Grand Championship, the first time at age 74.[19][20]"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rechargesView" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

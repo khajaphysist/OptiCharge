@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">ReOpti1</string>
+    <string-array name="states">
+        <item>AP</item>
+        <item>AS</item>
+        <item>BR</item>
+        <item>CH</item>
+        <item>DL</item>
+        <item>GJ</item>
+        <item>HP</item>
+        <item>HR</item>
+        <item>JK</item>
+        <item>KL</item>
+        <item>KN</item>
+        <item>KO</item>
+        <item>MH</item>
+        <item>MP</item>
+        <item>MU</item>
+        <item>NE</item>
+        <item>OR</item>
+        <item>PB</item>
+        <item>RJ</item>
+        <item>TN</item>
+        <item>UE</item>
+        <item>UW</item>
+        <item>WB</item>
+    </string-array>
+    <string-array name="operators">
+        <item>airtel</item>
+        <item>bsnl</item>
+        <item>cellone</item>
+        <item>aircel</item>
+        <item>idea</item>
+        <item>reliance</item>
+        <item>tata</item>
+        <item>uninor</item>
+        <item>vodafone</item>
+    </string-array>
+    <string name="state_prompt">State</string>
+    <string name="operator_prompt">Operator</string>
+</resources>

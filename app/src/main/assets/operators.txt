@@ -1,0 +1,10 @@
+airtel-A
+bsnl-B
+cellone-B
+aircel-C
+idea-I
+reliance-R
+tata-T
+telenor-Y
+uninor-U
+vodafone-V

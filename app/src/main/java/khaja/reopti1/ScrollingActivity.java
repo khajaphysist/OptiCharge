@@ -68,7 +68,7 @@ public class ScrollingActivity extends AppCompatActivity {
         StringBuffer sb = new StringBuffer();
         sb.append("User Operator: "+userOperator+"\n");
         sb.append("User State: "+userState+"\n");
-        sb.append("Total Days: "+zero.getOperator()+"\n");
+        sb.append("Total Days: "+Long.toString((Long.parseLong(zero.getName())-Long.parseLong(zero.getState()))/(86400000L))+"\n");
         sb.append("----------\n");
         sb.append("Local Same: "+localSame+"\n");
         sb.append("Local Others: "+localOthers+"\n");
@@ -127,6 +127,8 @@ public class ScrollingActivity extends AppCompatActivity {
         long oldestCallDate = 99999999999999L;
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        //Note: Storing recentCallDate in zero.name and oldestCallDate in zero.state
         Contact zero = databaseHelper.getContact("1");
         if (zero.getName().equals("x")){
             zero.setName("1");
@@ -192,10 +194,8 @@ public class ScrollingActivity extends AppCompatActivity {
         zero.setName(Long.toString(recentCallDate));
         if (Long.parseLong(zero.getState())>oldestCallDate)
             zero.setState(Long.toString(oldestCallDate));
-        zero.setOperator(Long.toString((recentCallDate-oldestCallDate)/(86400000L)));
-        Log.d("oldest: ",Long.toString(oldestCallDate));
-        Log.d("recent: ",Long.toString(recentCallDate));
-        Log.d("diff: ",Long.toString(recentCallDate-oldestCallDate));
+        Log.d("oldest: ",zero.getState());
+        Log.d("recent: ",zero.getName());
         databaseHelper.updateEntry(zero);
     }
 

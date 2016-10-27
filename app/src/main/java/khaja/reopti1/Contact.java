@@ -1,6 +1,6 @@
 package khaja.reopti1;
 
-public class Contact {
+public class Contact implements Comparable<Contact>{
     public String getNumber() {
         return number;
     }
@@ -65,5 +65,10 @@ public class Contact {
         this.seconds =  seconds;
     }
     public Contact(){
+    }
+
+    @Override
+    public int compareTo(Contact contact) {
+        return Integer.valueOf(this.seconds).compareTo(contact.getSeconds());
     }
 }

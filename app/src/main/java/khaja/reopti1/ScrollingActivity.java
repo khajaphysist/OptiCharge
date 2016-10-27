@@ -42,6 +42,16 @@ public class ScrollingActivity extends AppCompatActivity {
         displayRecharges();
     }
 
+    public List<Contact> getFavouriteContacts(){
+        List<Contact> favouriteContacts = new ArrayList<>();
+        DatabaseHelper dbh = new DatabaseHelper(this);
+        favouriteContacts = dbh.getAllEntries();
+        Collections.sort(favouriteContacts);
+        Collections.reverse(favouriteContacts);
+        favouriteContacts = favouriteContacts.subList(0,5);
+        return favouriteContacts;
+    }
+
     public void displayRecharges(){
         List<Recharge> rechargeList = getRecharges();
         Stats stats = new Stats(this,getUserOperatorAndState());
@@ -62,7 +72,9 @@ public class ScrollingActivity extends AppCompatActivity {
             sb.append("\n");
         }
         TextView rechargesView = (TextView)findViewById(R.id.rechargesView);
-        rechargesView.setText(sb);
+        if (rechargesView != null) {
+            rechargesView.setText(sb);
+        }
     }
 
     public List<Recharge> getRecharges(){
@@ -83,16 +95,13 @@ public class ScrollingActivity extends AppCompatActivity {
                 String location = s[2];
                 String[] tariffDetails = s[3].split("-");
                 if (tariffDetails.length == 1){
-                    Log.d("TariffDetails: ",tariffDetails[0]);
                     rechargeList.add(new Recharge(rechargeCost, validity, location, tariffDetails[0].substring(0, 1),
                             Double.valueOf(tariffDetails[0].substring(1) + ".0"), s[4]));
                 }else if (tariffDetails.length == 2){
-                    Log.d("TariffDetails: ",tariffDetails[0]+", "+tariffDetails[1]);
                     String pulseType = tariffDetails[1];
                     Double costPerPulse = Double.valueOf(tariffDetails[0] + ".0");
                     rechargeList.add(new Recharge(rechargeCost, validity, location, pulseType, costPerPulse,0.0,0.0,s[4]));
                 }else if (tariffDetails.length == 4){
-                    Log.d("TariffDetails: ",tariffDetails[0]+", "+tariffDetails[1]+", "+tariffDetails[2]+", "+tariffDetails[3]);
                     String pulseType = tariffDetails[1];
                     Double costPerPulse = Double.valueOf(tariffDetails[0] + ".0");
                     Double firstXPulses = Double.valueOf(tariffDetails[2] + ".0");
@@ -117,20 +126,22 @@ public class ScrollingActivity extends AppCompatActivity {
         Stats stats = new Stats(this, userOperatorAndState);
 
         StringBuffer sb = new StringBuffer();
-        sb.append("User Operator: "+userOperator+"\n");
-        sb.append("User State: "+userState+"\n");
-        sb.append("Total Days: "+Long.toString(stats.getDays())+"\n");
+        sb.append("User Operator: ").append(userOperator).append("\n");
+        sb.append("User State: ").append(userState).append("\n");
+        sb.append("Total Days: ").append(Long.toString(stats.getDays())).append("\n");
         sb.append("----------\n");
-        sb.append("LocalSameSeconds: "+stats.getLocalSameSeconds()+"\n");
-        sb.append("LocalSameMinutes: "+stats.getLocalSameMinutes()+"\n");
-        sb.append("LocalOtherSeconds: "+stats.getLocalOtherSeconds()+"\n");
-        sb.append("LocalOtherMinutes: "+stats.getLocalOtherMinutes()+"\n");
-        sb.append("LocalTotalSeconds: "+stats.getLocalTotalSeconds()+"\n");
-        sb.append("LocalTotalMinutes: "+stats.getLocalTotalMinutes()+"\n");
-        sb.append("STDSeconds: "+stats.getStdSeconds()+"\n");
-        sb.append("STDMinutes: "+stats.getStdMinutes()+"\n");
+        sb.append("LocalSameSeconds: ").append(stats.getLocalSameSeconds()).append("\n");
+        sb.append("LocalSameMinutes: ").append(stats.getLocalSameMinutes()).append("\n");
+        sb.append("LocalOtherSeconds: ").append(stats.getLocalOtherSeconds()).append("\n");
+        sb.append("LocalOtherMinutes: ").append(stats.getLocalOtherMinutes()).append("\n");
+        sb.append("LocalTotalSeconds: ").append(stats.getLocalTotalSeconds()).append("\n");
+        sb.append("LocalTotalMinutes: ").append(stats.getLocalTotalMinutes()).append("\n");
+        sb.append("STDSeconds: ").append(stats.getStdSeconds()).append("\n");
+        sb.append("STDMinutes: ").append(stats.getStdMinutes()).append("\n");
         sb.append("----------\n");
-        display.setText(sb);
+        if (display != null) {
+            display.setText(sb);
+        }
 
     }
 

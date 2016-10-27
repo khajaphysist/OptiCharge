@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +42,73 @@ public class ScrollingActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        displayRecharges();
 
+    }
+    public void displayRecharges(){
+        List<Recharge> rechargeList = getRecharges();
+        Stats stats = new Stats(this,getUserOperatorAndState());
+        for (Recharge recharge:rechargeList)
+            recharge.calculateMonthlyCost(stats);
+        Collections.sort(rechargeList);
+        StringBuffer sb = new StringBuffer();
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        for (Recharge recharge:rechargeList){
+            sb.append("----------\n");
+            sb.append("Recharge with Rs."+recharge.getRechargeCost()+"\n");
+            sb.append("And get below benifits for "+recharge.getValidity()+" days\n\n");
+            sb.append("Monthly Cost Rs.");
+            sb.append(df.format(recharge.getMonthlyCost()/100.0));
+            sb.append("\n\n");
+            sb.append(recharge.getDescription());
+            sb.append("\n");
+        }
+        TextView rechargesView = (TextView)findViewById(R.id.rechargesView);
+        rechargesView.setText(sb);
+    }
 
-
+    public List<Recharge> getRecharges(){
+        AssetManager assetManager = getBaseContext().getAssets();
+        List<Recharge> rechargeList = new ArrayList<>();
+        try {
+            String userOperatorAndState = getUserOperatorAndState();
+            String userOperator = userOperatorAndState.substring(0,1);
+            String userState = userOperatorAndState.substring(1,3);
+            InputStream inputStream = assetManager.open(userOperator+"_"+userState+".txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null){
+                String[] s = line.split("\\|");
+                Double rechargeCost = Double.valueOf(s[0]+".0");
+                Double validity = Double.valueOf(s[1]+".0");
+                String location = s[2];
+                String[] tariffDetails = s[3].split("-");
+                if (tariffDetails.length == 1){
+                    Log.d("TariffDetails: ",tariffDetails[0]);
+                    rechargeList.add(new Recharge(rechargeCost, validity, location, tariffDetails[0].substring(0, 1),
+                            Double.valueOf(tariffDetails[0].substring(1) + ".0"), s[4]));
+                }else if (tariffDetails.length == 2){
+                    Log.d("TariffDetails: ",tariffDetails[0]+", "+tariffDetails[1]);
+                    String pulseType = tariffDetails[1];
+                    Double costPerPulse = Double.valueOf(tariffDetails[0] + ".0");
+                    rechargeList.add(new Recharge(rechargeCost, validity, location, pulseType, costPerPulse,0.0,0.0,s[4]));
+                }else if (tariffDetails.length == 4){
+                    Log.d("TariffDetails: ",tariffDetails[0]+", "+tariffDetails[1]+", "+tariffDetails[2]+", "+tariffDetails[3]);
+                    String pulseType = tariffDetails[1];
+                    Double costPerPulse = Double.valueOf(tariffDetails[0] + ".0");
+                    Double firstXPulses = Double.valueOf(tariffDetails[2] + ".0");
+                    Double costPerFirstXPulses = Double.valueOf(tariffDetails[3] + ".0");
+                    rechargeList.add(new Recharge(rechargeCost,validity,location,pulseType,
+                            costPerPulse,firstXPulses,costPerFirstXPulses,s[4]));
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rechargeList;
     }
 
     public void displayStats() throws IOException{
@@ -49,37 +116,28 @@ public class ScrollingActivity extends AppCompatActivity {
         String userOperatorAndState = getUserOperatorAndState();
         String userOperator = userOperatorAndState.substring(0,1);
         String userState = userOperatorAndState.substring(1,3);
-        int localSame = 0;
-        int localOthers = 0;
-        int localTotal = 0;
-        int std = 0;
-        DatabaseHelper dbh = new DatabaseHelper(this);
-        Contact zero = dbh.getContact("1");
-        List<Contact> contactList = dbh.getAllEntries();
-        for (Contact contact:contactList){
-            if (contact.getState().equals(userState)){
-                localTotal = localTotal + contact.getSeconds();
-                if (contact.getOperator().equals(userOperator))
-                    localSame = localSame + contact.getSeconds();
-                else localOthers = localOthers + contact.getSeconds();
-            }
-            else std = std + contact.getSeconds();
-        }
+
+        Stats stats = new Stats(this, userOperatorAndState);
+
         StringBuffer sb = new StringBuffer();
         sb.append("User Operator: "+userOperator+"\n");
         sb.append("User State: "+userState+"\n");
-        sb.append("Total Days: "+Long.toString((Long.parseLong(zero.getName())-Long.parseLong(zero.getState()))/(86400000L))+"\n");
+        sb.append("Total Days: "+Long.toString(stats.getDays())+"\n");
         sb.append("----------\n");
-        sb.append("Local Same: "+localSame+"\n");
-        sb.append("Local Others: "+localOthers+"\n");
-        sb.append("Local Total: "+localTotal+"\n");
-        sb.append("STD: "+std+"\n");
+        sb.append("LocalSameSeconds: "+stats.getLocalSameSeconds()+"\n");
+        sb.append("LocalSameMinutes: "+stats.getLocalSameMinutes()+"\n");
+        sb.append("LocalOtherSeconds: "+stats.getLocalOtherSeconds()+"\n");
+        sb.append("LocalOtherMinutes: "+stats.getLocalOtherMinutes()+"\n");
+        sb.append("LocalTotalSeconds: "+stats.getLocalTotalSeconds()+"\n");
+        sb.append("LocalTotalMinutes: "+stats.getLocalTotalMinutes()+"\n");
+        sb.append("STDSeconds: "+stats.getStdSeconds()+"\n");
+        sb.append("STDMinutes: "+stats.getStdMinutes()+"\n");
         sb.append("----------\n");
         display.setText(sb);
 
     }
 
-    public String getUserOperatorAndState() throws IOException{
+    public String getUserOperatorAndState(){
         TelephonyManager tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String mncCode = tel.getNetworkOperator();
         String operatorName = tel.getNetworkOperatorName();
@@ -88,31 +146,37 @@ public class ScrollingActivity extends AppCompatActivity {
         InputStream inputStream;
         String userOperatorAndState = "";
 
-        inputStream = assetManager.open("mnccodes.txt");
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        String line = reader.readLine();
-        while (line != null){
-            String[] s = line.split("-");
-            if (s[0].equals(mncCode)){
-                state = s[1];
+        try {
+            inputStream = assetManager.open("mnccodes.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null){
+                String[] s = line.split("-");
+                if (s[0].equals(mncCode)){
+                    state = s[1];
+                }
+                line = reader.readLine();
             }
+            inputStream = assetManager.open("operators.txt");
+            inputStreamReader = new InputStreamReader(inputStream);
+            reader = new BufferedReader(inputStreamReader);
             line = reader.readLine();
-        }
-        inputStream = assetManager.open("operators.txt");
-        inputStreamReader = new InputStreamReader(inputStream);
-        reader = new BufferedReader(inputStreamReader);
-        line = reader.readLine();
-        while (line != null){
-            String[] s = line.split("-");
-            if (s[0].equalsIgnoreCase(operatorName)){
-                operator = s[1];
+            while (line != null){
+                String[] s = line.split("-");
+                if (s[0].equalsIgnoreCase(operatorName)){
+                    operator = s[1];
+                }
+                line = reader.readLine();
             }
-            line = reader.readLine();
-        }
 
-        userOperatorAndState = operator.concat(state);
+            userOperatorAndState = operator.concat(state);
+            return userOperatorAndState;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return userOperatorAndState;
+
     }
 
     public void updateDatabase () throws IOException{
@@ -194,8 +258,6 @@ public class ScrollingActivity extends AppCompatActivity {
         zero.setName(Long.toString(recentCallDate));
         if (Long.parseLong(zero.getState())>oldestCallDate)
             zero.setState(Long.toString(oldestCallDate));
-        Log.d("oldest: ",zero.getState());
-        Log.d("recent: ",zero.getName());
         databaseHelper.updateEntry(zero);
     }
 
@@ -218,21 +280,3 @@ public class ScrollingActivity extends AppCompatActivity {
         return operatorsAndStates;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

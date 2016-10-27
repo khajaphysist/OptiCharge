@@ -69,7 +69,6 @@ public class Stats {
                     localOtherSeconds = localOtherSeconds + contact.getSeconds();
                     localOtherMinutes = localOtherMinutes + contact.getMinutes();
                 }
-
             }
             else {
                 stdSeconds = stdSeconds + contact.getSeconds();

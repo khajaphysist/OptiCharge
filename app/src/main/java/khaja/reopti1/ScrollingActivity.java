@@ -54,6 +54,7 @@ public class ScrollingActivity extends AppCompatActivity {
         int localTotal = 0;
         int std = 0;
         DatabaseHelper dbh = new DatabaseHelper(this);
+        Contact zero = dbh.getContact("1");
         List<Contact> contactList = dbh.getAllEntries();
         for (Contact contact:contactList){
             if (contact.getState().equals(userState)){
@@ -67,6 +68,7 @@ public class ScrollingActivity extends AppCompatActivity {
         StringBuffer sb = new StringBuffer();
         sb.append("User Operator: "+userOperator+"\n");
         sb.append("User State: "+userState+"\n");
+        sb.append("Total Days: "+zero.getOperator()+"\n");
         sb.append("----------\n");
         sb.append("Local Same: "+localSame+"\n");
         sb.append("Local Others: "+localOthers+"\n");
@@ -122,13 +124,14 @@ public class ScrollingActivity extends AppCompatActivity {
         int typeColumnIndex = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int dateColumnIndex = managedCursor.getColumnIndex(CallLog.Calls.DATE);
         long recentCallDate = 0;
+        long oldestCallDate = 99999999999999L;
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         Contact zero = databaseHelper.getContact("1");
         if (zero.getName().equals("x")){
             zero.setName("1");
             zero.setNumber("1");
-            zero.setState("1");
+            zero.setState("99999999999999");
             zero.setOperator("1");
             zero.setMinutes(0);
             zero.setSeconds(0);
@@ -138,6 +141,7 @@ public class ScrollingActivity extends AppCompatActivity {
         HashMap<Integer,String> operatorsAndStates = getOperatorsAndStates();
 
 
+
         managedCursor.moveToLast();
         do {
             String number = managedCursor.getString(numberColumnIndex);
@@ -145,11 +149,14 @@ public class ScrollingActivity extends AppCompatActivity {
             int duration = Integer.parseInt(managedCursor.getString(durationColumnIndex));
             String type = managedCursor.getString(typeColumnIndex);
             long date = Long.parseLong(managedCursor.getString(dateColumnIndex));
-            if (date>recentCallDate)recentCallDate=date;
+
 
             if (number.length()>=10)number = number.substring(number.length()-10);
             if (!type.equals("2"))continue;
             if (duration==0)continue;
+
+            if (date>recentCallDate)recentCallDate=date;
+            if (date<oldestCallDate)oldestCallDate=date;
 
             Contact contact = databaseHelper.getContact(number);
             if (contact.getOperator().equals("x")){
@@ -183,6 +190,12 @@ public class ScrollingActivity extends AppCompatActivity {
         }while (managedCursor.moveToPrevious());
 
         zero.setName(Long.toString(recentCallDate));
+        if (Long.parseLong(zero.getState())>oldestCallDate)
+            zero.setState(Long.toString(oldestCallDate));
+        zero.setOperator(Long.toString((recentCallDate-oldestCallDate)/(86400000L)));
+        Log.d("oldest: ",Long.toString(oldestCallDate));
+        Log.d("recent: ",Long.toString(recentCallDate));
+        Log.d("diff: ",Long.toString(recentCallDate-oldestCallDate));
         databaseHelper.updateEntry(zero);
     }
 

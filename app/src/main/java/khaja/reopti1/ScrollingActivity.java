@@ -36,15 +36,12 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-        try {
-            updateDatabase();
-            displayStats();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        displayRecharges();
 
+        updateDatabase();
+        displayStats();
+        displayRecharges();
     }
+
     public void displayRecharges(){
         List<Recharge> rechargeList = getRecharges();
         Stats stats = new Stats(this,getUserOperatorAndState());
@@ -56,8 +53,8 @@ public class ScrollingActivity extends AppCompatActivity {
         df.setMaximumFractionDigits(2);
         for (Recharge recharge:rechargeList){
             sb.append("----------\n");
-            sb.append("Recharge with Rs."+recharge.getRechargeCost()+"\n");
-            sb.append("And get below benifits for "+recharge.getValidity()+" days\n\n");
+            sb.append("Recharge with Rs.").append(recharge.getRechargeCost()).append("\n");
+            sb.append("And get below benifits for ").append(recharge.getValidity()).append(" days\n\n");
             sb.append("Monthly Cost Rs.");
             sb.append(df.format(recharge.getMonthlyCost()/100.0));
             sb.append("\n\n");
@@ -111,7 +108,7 @@ public class ScrollingActivity extends AppCompatActivity {
         return rechargeList;
     }
 
-    public void displayStats() throws IOException{
+    public void displayStats() {
         TextView display = (TextView)findViewById(R.id.resultView);
         String userOperatorAndState = getUserOperatorAndState();
         String userOperator = userOperatorAndState.substring(0,1);
@@ -179,7 +176,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
     }
 
-    public void updateDatabase () throws IOException{
+    public void updateDatabase (){
 
         Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI,null,null,null,null);
         int numberColumnIndex = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
@@ -261,22 +258,26 @@ public class ScrollingActivity extends AppCompatActivity {
         databaseHelper.updateEntry(zero);
     }
 
-    public HashMap<Integer,String> getOperatorsAndStates() throws IOException {
+    public HashMap<Integer,String> getOperatorsAndStates() {
 
         HashMap<Integer,String> operatorsAndStates = new HashMap<>();
 
         AssetManager assetManager = getBaseContext().getAssets();
-        InputStream inputStream = assetManager.open("finalsorted.txt");
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        InputStream inputStream = null;
+        try {
+            inputStream = assetManager.open("finalsorted.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        String line = bufferedReader.readLine();
-        while (line != null){
-            String[] s = line.split(" ");
-            operatorsAndStates.put(Integer.parseInt(s[0]), s[1].concat(s[2]));
-            line = bufferedReader.readLine();
+            String line = bufferedReader.readLine();
+            while (line != null){
+                String[] s = line.split(" ");
+                operatorsAndStates.put(Integer.parseInt(s[0]), s[1].concat(s[2]));
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
         return operatorsAndStates;
     }
 }

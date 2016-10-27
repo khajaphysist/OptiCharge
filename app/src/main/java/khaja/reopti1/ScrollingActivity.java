@@ -40,14 +40,13 @@ public class ScrollingActivity extends AppCompatActivity {
         updateDatabase();
         displayStats();
         displayRecharges();
+
     }
 
     public List<Contact> getFavouriteContacts(){
-        List<Contact> favouriteContacts = new ArrayList<>();
+        List<Contact> favouriteContacts;
         DatabaseHelper dbh = new DatabaseHelper(this);
         favouriteContacts = dbh.getAllEntries();
-        Collections.sort(favouriteContacts);
-        Collections.reverse(favouriteContacts);
         favouriteContacts = favouriteContacts.subList(0,5);
         return favouriteContacts;
     }

@@ -385,6 +385,13 @@ public class ScrollingActivity extends AppCompatActivity {
         sb.append("LocalTotalMinutes: ").append(stats.getLocalTotalMinutes()).append("\n");
         sb.append("STDSeconds: ").append(stats.getStdSeconds()).append("\n");
         sb.append("STDMinutes: ").append(stats.getStdMinutes()).append("\n");
+        sb.append("\n");
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        Double normalMonthlyCost = (stats.getLocalTotalSeconds() * Recharge.LOCAL_TARIFF
+                + stats.getStdSeconds() * Recharge.STD_TARIFF)/(double)stats.getDays()
+                *30.0/100.0;
+        sb.append("Monthly Cost without any special recharge Rs. "+df.format(normalMonthlyCost)+"\n");
         sb.append("----------\n");
         if (display != null) {
             display.setText(sb);

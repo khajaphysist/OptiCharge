@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,7 +44,174 @@ public class ScrollingActivity extends AppCompatActivity {
         displayStats();
         displayRecharges();
         viewFavourites();
+        setListenersForSpinners();
+        setListenerForButton();
+    }
 
+    public void setListenerForButton(){
+        Button refreshButton = (Button)findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayStats();
+                viewFavourites();
+                displayRecharges();
+            }
+        });
+    }
+
+    public void setListenersForSpinners(){
+        Spinner state1 = (Spinner)findViewById(R.id.state1);
+        Spinner state2 = (Spinner)findViewById(R.id.state2);
+        Spinner state3 = (Spinner)findViewById(R.id.state3);
+        Spinner state4 = (Spinner)findViewById(R.id.state4);
+        Spinner state5 = (Spinner)findViewById(R.id.state5);
+        Spinner operator1 = (Spinner)findViewById(R.id.operator1);
+        Spinner operator2 = (Spinner)findViewById(R.id.operator2);
+        Spinner operator3 = (Spinner)findViewById(R.id.operator3);
+        Spinner operator4 = (Spinner)findViewById(R.id.operator4);
+        Spinner operator5 = (Spinner)findViewById(R.id.operator5);
+        final String[] states = getStates();
+        final String[] operators = getOperators();
+
+        final DatabaseHelper dbh = new DatabaseHelper(this);
+        List<Contact> favouriteContacts = getFavouriteContacts();
+
+        for (int j = 0; j < 5; j++){
+            final Contact contact = favouriteContacts.get(j);
+            switch (j){
+                case 0:
+                    state1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setState(states[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    operator1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setOperator(operators[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    break;
+                case 1:
+                    state2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setState(states[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    operator2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setOperator(operators[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    break;
+                case 2:
+                    state3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setState(states[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    operator3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setOperator(operators[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    break;
+                case 3:
+                    state4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setState(states[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    operator4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setOperator(operators[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    break;
+                case 4:
+                    state5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setState(states[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    operator5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            contact.setOperator(operators[i]);
+                            dbh.updateEntry(contact);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                    break;
+            }
+        }
     }
 
     public void viewFavourites(){
@@ -108,9 +277,8 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     public String[] getStates(){
-        String[] states = {"AP", "AS", "BR", "CH", "DL", "GJ", "HP", "HR", "JK", "KL",
+        return new String[]{"AP", "AS", "BR", "CH", "DL", "GJ", "HP", "HR", "JK", "KL",
                 "KN", "KO", "MH", "MP", "MU", "NE", "OR", "PB", "RJ", "TN", "UE", "UW", "WB"};
-        return states;
     }
 
     public int getStateIndex(String[] states, String queryState){
@@ -122,8 +290,7 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     public String[] getOperators(){
-        String[] operators = {"A", "B", "B", "C", "I", "R", "T", "Y", "U", "V"};
-        return operators;
+        return new String[]{"A", "B", "B", "C", "I", "R", "T", "Y", "U", "V"};
     }
 
     public int getOperatorIndex(String[] operators, String queryOperator){

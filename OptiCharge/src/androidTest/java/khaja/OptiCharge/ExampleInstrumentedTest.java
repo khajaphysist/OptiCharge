@@ -1,4 +1,4 @@
-package khaja.reopti1;
+package khaja.OptiCharge;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

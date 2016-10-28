@@ -1,4 +1,4 @@
-package khaja.reopti1;
+package khaja.OptiCharge;
 
 import org.junit.Test;
 

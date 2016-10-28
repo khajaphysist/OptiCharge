@@ -1,4 +1,4 @@
-package khaja.reopti1;
+package khaja.OptiCharge;
 
 public class Recharge implements Comparable<Recharge> {
     static final Double LOCAL_TARIFF = 2.0;

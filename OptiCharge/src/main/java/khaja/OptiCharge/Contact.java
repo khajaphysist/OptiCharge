@@ -1,4 +1,4 @@
-package khaja.reopti1;
+package khaja.OptiCharge;
 
 public class Contact implements Comparable<Contact>{
     public String getNumber() {

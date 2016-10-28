@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -40,7 +41,97 @@ public class ScrollingActivity extends AppCompatActivity {
         updateDatabase();
         displayStats();
         displayRecharges();
+        viewFavourites();
 
+    }
+
+    public void viewFavourites(){
+        Spinner state1 = (Spinner)findViewById(R.id.state1);
+        Spinner state2 = (Spinner)findViewById(R.id.state2);
+        Spinner state3 = (Spinner)findViewById(R.id.state3);
+        Spinner state4 = (Spinner)findViewById(R.id.state4);
+        Spinner state5 = (Spinner)findViewById(R.id.state5);
+        Spinner operator1 = (Spinner)findViewById(R.id.operator1);
+        Spinner operator2 = (Spinner)findViewById(R.id.operator2);
+        Spinner operator3 = (Spinner)findViewById(R.id.operator3);
+        Spinner operator4 = (Spinner)findViewById(R.id.operator4);
+        Spinner operator5 = (Spinner)findViewById(R.id.operator5);
+        TextView name1 = (TextView)findViewById(R.id.name1);
+        TextView name2 = (TextView)findViewById(R.id.name2);
+        TextView name3 = (TextView)findViewById(R.id.name3);
+        TextView name4 = (TextView)findViewById(R.id.name4);
+        TextView name5 = (TextView)findViewById(R.id.name5);
+        TextView num1 = (TextView)findViewById(R.id.num1);
+        TextView num2 = (TextView)findViewById(R.id.num2);
+        TextView num3 = (TextView)findViewById(R.id.num3);
+        TextView num4 = (TextView)findViewById(R.id.num4);
+        TextView num5 = (TextView)findViewById(R.id.num5);
+
+        List<Contact> favouriteContacts = getFavouriteContacts();
+        String[] states = getStates();
+        String[] operators = getOperators();
+        for (int i = 0; i < 5; i++){
+            Contact contact = favouriteContacts.get(i);
+            switch (i){
+                case 0:
+                    name1.setText(contact.getName());
+                    num1.setText(contact.getNumber());
+                    state1.setSelection(getStateIndex(states,contact.getState()));
+                    operator1.setSelection(getOperatorIndex(operators,contact.getOperator()));
+                    break;
+                case 1:
+                    name2.setText(contact.getName());
+                    num2.setText(contact.getNumber());
+                    state2.setSelection(getStateIndex(states,contact.getState()));
+                    operator2.setSelection(getOperatorIndex(operators,contact.getOperator()));
+                    break;
+                case 2:
+                    name3.setText(contact.getName());
+                    num3.setText(contact.getNumber());
+                    state3.setSelection(getStateIndex(states,contact.getState()));
+                    operator3.setSelection(getOperatorIndex(operators,contact.getOperator()));
+                    break;
+                case 3:
+                    name4.setText(contact.getName());
+                    num4.setText(contact.getNumber());
+                    state4.setSelection(getStateIndex(states,contact.getState()));
+                    operator4.setSelection(getOperatorIndex(operators,contact.getOperator()));
+                    break;
+                case 4:
+                    name5.setText(contact.getName());
+                    num5.setText(contact.getNumber());
+                    state5.setSelection(getStateIndex(states,contact.getState()));
+                    operator5.setSelection(getOperatorIndex(operators,contact.getOperator()));
+                    break;
+            }
+        }
+    }
+
+    public String[] getStates(){
+        String[] states = {"AP", "AS", "BR", "CH", "DL", "GJ", "HP", "HR", "JK", "KL",
+                "KN", "KO", "MH", "MP", "MU", "NE", "OR", "PB", "RJ", "TN", "UE", "UW", "WB"};
+        return states;
+    }
+
+    public int getStateIndex(String[] states, String queryState){
+        int i = 0;
+        for (; i < states.length; i++){
+            if (states[i].equals(queryState))break;
+        }
+        return i;
+    }
+
+    public String[] getOperators(){
+        String[] operators = {"A", "B", "B", "C", "I", "R", "T", "Y", "U", "V"};
+        return operators;
+    }
+
+    public int getOperatorIndex(String[] operators, String queryOperator){
+        int i = 0;
+        for (; i < operators.length; i++){
+            if (operators[i].equals(queryOperator))break;
+        }
+        return i;
     }
 
     public List<Contact> getFavouriteContacts(){
